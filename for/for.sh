@@ -81,7 +81,7 @@ do
    echo "打印file文件中的内容 $test"
 done
 }
-i
+#i
 
 function j(){           #从命令中读取值,命令中读取的值因为有特殊符号，会被shell当作分隔符，所以在判断之前先要更改shell中分隔符的判断，shell默认分隔符有分号，换行符，制表符
 a=$(cat file)
@@ -94,25 +94,52 @@ do
 done
 IFS=$IFS.OLD		#恢复IFS的初始值
 }
-j
-function h(){		#用通配符读取目录
+#j
+
+function k(){		#用通配符读取目录
 for test in /home/yuer/shell/*
 do 
-  if [ -d "$test" ] ;then
+  if [ -d "$test" ] ;then	#因为文件命名不规范，导致读取的变量会有问题，所以保险起见变量还是加上引号
   echo "$test 是目录"
   elif [ -f "$test" ] ;then
   echo "$test 是文件"
   fi
 done
 }
-h
+#k
 
+function l(){			#也可以在for命令中列出多个目录通配符，将目录查找和列表合并进同一个for语句。
+for test in /home/yuer/shell/*  /home/publish/volume													
+do													
+    if [ -d "$test" ] 		#if 条件的变量一定要和中扩号中间有空格											
+    then													
+      echo "$test 是目录"													
+    elif [ -f "$test" ] 													
+    then													
+      echo "$test 是文件"													
+    else 													
+      echo "$test 此文件不存在"													
+    fi													
+done
+}				#注意，你可以在数据列表中放入任何东西。即使文件或目录不存在，for语句也会尝试处 理列表中的内容。在处理文件或目录时，这可能会是个问题。你无法知道你正在尝试遍                                历的目录是否存在:在处理之前测试一下文件或目录总是好的。
 
+#l
 
+function m(){			#bash shell程序中使用C语言风格的for命令
+for (( i=1; i <=10 ;i++ ))
+do
+echo "下一次输出的数字是 $i"
+done
+}				#for循环通过定义好的变量(本例中是变量i)来迭代执行这些命令。在每次迭代中，$i变 量包含了for循环中赋予的值。在每次迭代后，循环的迭代过程会作用在变量上，在本例中，变量增一。
+m
 
-
-
-
+function n(){	#使用多个变量
+for ((a=1 ,b=10 ; a <= 10 ; a++, b--))
+do
+ echo  当前a的值= $a , 当前b的值= $b
+done
+}
+n
 
 
 
