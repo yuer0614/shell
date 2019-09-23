@@ -83,7 +83,7 @@ done
 }
 i
 
-function i(){           #从命令中读取值,命令中读取的值因为有特殊符号，会被shell当作分隔符，所以在判断之前先要更改shell中分隔符的判断，shell默认分隔符有分号，换行符，制表符
+function j(){           #从命令中读取值,命令中读取的值因为有特殊符号，会被shell当作分隔符，所以在判断之前先要更改shell中分隔符的判断，shell默认分隔符有分号，换行符，制表符
 a=$(cat file)
 echo $a
 IFS.OLD=$IFS		#先把IFS初始值记下，之后改变之后，可以恢复
@@ -94,9 +94,18 @@ do
 done
 IFS=$IFS.OLD		#恢复IFS的初始值
 }
-i
-
-
+j
+function h(){		#用通配符读取目录
+for test in /home/yuer/shell/*
+do 
+  if [ -d "$test" ] ;then
+  echo "$test 是目录"
+  elif [ -f "$test" ] ;then
+  echo "$test 是文件"
+  fi
+done
+}
+h
 
 
 
