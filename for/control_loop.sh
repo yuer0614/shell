@@ -93,7 +93,7 @@ var=1
 while echo "while 迭代数 $var "				#条件是当变量var值小于15时执行循环
   	[ $var -lt 15 ]
 do
-  if [ $var -gt 5 ] && [ $var -lt 10 ]			#当变量var值大于5小于10时执行continue命令，那么这次的循环到此结束，判断之后的命令不再执行，所以后面的echo 和var增值命令全没有执行，那么var没有增值，就一直会终止循环。成为一个死循环。	
+  if [ $var -gt 5 ] && [ $var -lt 10 ]	
   then
     continue
   fi
@@ -101,11 +101,57 @@ do
 var=$[ $var+1 ]
 done
 }
-f
+#f
 
 
 
 
 
+i=0
+j=0
+while [ "$i" -lt 5 ]
+do
+  while [ "$j" -lt 5 ]
+  do
+   if [ $j -gt 2 ] && [  $j -lt 4 ] 
+   then
+   continue 2 
+   fi
+    echo $i, $j
+    j=$(($j+1))
+  done
+  j=0
+  i=$(($i+1))
+done
+
+
+
+
+
+
+
+
+
+
+#当变量var值大于5小于10时执行continue命令，那么这次的循环到此结束，判断之后的命令不再执行，所以后面的echo 和var增值命令全没有执行，那么var没有增值，就一直会终止循环。成为一个死循环。 
+#在if-then的条件成立 之前，所有一切看起来都很正常，然后shell执行了continue命令。当shell执行continue命令时， 它跳过了while循环中余下的命令。不幸的是，被跳过的部分正是$var1计数变量增值的地方， 而这个变量又被用于while测试命令中。这意味着这个变量的值不会再变化了
+#当然continue命令和break命令一样，continue命令也允许通过后面增加参数指定要执行哪一级循环
+
+function g(){
+for (( a = 1 ; a < 10 ; a++)) 
+do
+  echo "外循环迭代数 $a"
+  for ((b = 1 ; b < 7 ; b++ ))
+  do 
+    if [ $b -gt 2 ]  && [ $b -lt 4 ]
+    then 
+    continue 2
+    fi
+    var3=$[ $a * $b ]
+    echo "   The result of $a * $b is $var3"
+  done
+done
+}
+#g
 
 
