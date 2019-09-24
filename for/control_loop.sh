@@ -69,14 +69,39 @@ do
   done
 done
 }
-d
+#d
 #注意，当shell执行了break命令后，外部循环就停止了。
 
+#前四种方法是break控制循环，还有一个continue命令控制循环
+#continue命令可以提前中止某次循环中的命令，但并不会完全终止整个循环。可以在循环 内部设置shell不执行命令的条件
 
+function e(){
+for (( a = 1 ; a < 15 ; a++))      #这个循环正常来说应该循环14次
+ do
+  if [ $a -eq 5 ] || [ $a -eq 10 ] #当if-then语句的条件被满足时（值等于5或者值等于10)，shell会执行continue命令，跳过此 次循环中剩余的命令，但整个循环还会继续。当if-then的条件不再被满足时，一切又回到正轨。
+  then 
+    continue
+  fi
+  echo  "迭代数 $a"
+done
+}
+#e
+#也可以在while和until循环中使用continue命令，但要特别小心。记住，当shell执行 continue命令时，它会跳过剩余的命令。如果你在其中某个条件里对测试条件变量进行增值， 问题就会出现。
 
-
-
-
+function f(){
+var=1
+while echo "while 迭代数 $var "				#条件是当变量var值小于15时执行循环
+  	[ $var -lt 15 ]
+do
+  if [ $var -gt 5 ] && [ $var -lt 10 ]			#当变量var值大于5小于10时执行continue命令，那么这次的循环到此结束，判断之后的命令不再执行，所以后面的echo 和var增值命令全没有执行，那么var没有增值，就一直会终止循环。成为一个死循环。	
+  then
+    continue
+  fi
+  echo "内部迭代"
+var=$[ $var+1 ]
+done
+}
+f
 
 
 
