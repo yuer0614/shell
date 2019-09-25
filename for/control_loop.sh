@@ -158,8 +158,58 @@ do
    fi
     echo $i, $j				#并且输出变量 i 与 j 的值
   done
-  j=0					#结束一次内循环的时候要把内循环变量清零不然执行了一次循环，内循环变量就加了1,内循环会越执行越少	
+  j=0					#结束一次内循环的时候要把内循环变量清零不然执行了一次循环，不然外循环执行了一次，内循环变量就变成了4，变成了4内循环就无法循环了。
   i=$(($i+1))
 done
 }
-i
+#i
+
+#处理循环的输出
+
+#循环返回结果有很多，在脚本中可以对输出结果进行重定向。在done后添加一个处理命令
+
+function j(){
+for file in /home/yuer/*		#定义变量file的值为/home/yuer/*下所有的文件
+do 
+  if [  -d "$file"  ]			#对文件进行判断	
+  then 
+    echo "$file 是一个目录"
+  else 
+    echo "$file 是一个文件"
+  fi
+done > output.txt			#本来应该输出在屏幕的结果，现在被重定向到了output.txt文件中，这个文件在脚本所在的文件中
+}
+#j
+
+function k(){
+for (( a = 1 ; a < 10 ; a++ ))
+do 
+  echo "这次数字是 $a"
+done > test.txt
+echo "命令完成"
+}
+#k
+#shell创建了文件test.txt并将for命令的输出重定向到这个文件。shell在for命令之后正常显示了echo语句。
+
+#这种方法同样适用于将循环结果管接给另一个命令
+
+
+function l(){ 					#定义变量的五个值，每次循环输出一个值，
+for test in "North Dakota" Connecticut Illinois Alabama Tennessee
+do
+  echo "$test 是我下次想去的地方"
+done |sort					#把输出结果进行排序。
+echo "命令完成" 				#最终输出的结果是排序之后的结果
+}
+l
+#state值并没有在for命令列表中以特定次序列出。for命令的输出传给了sort命令，该命令会改变for命令输出结果的顺序。运行这个脚本实际上说明了结果已经在脚本内部排好序了。
+
+
+
+
+
+
+
+
+
+
