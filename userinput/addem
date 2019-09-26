@@ -50,6 +50,8 @@ echo "第十一个数  ${11}"
 function e(){
 echo "将0参数设置为：$0"
 }
+#用 sh "脚本名称" 这样执行$0返回的值是脚本名称
+#但是把脚本授予可执行权限，然后用 ./“脚本名称” 这种方式来执行的话 返回的结果是./“脚本名称”，如果加了绝对路径，那么返回结果就是/home/yuer/shell/useriput/"脚本名称了"
 #但是这里存在一个潜在的问题。如果使用另一个命令来运行shell脚本，命令会和脚本名混在 一起，出现在$0参数中。
 
 #其实$0就是输入的命令，只是会隐藏一些而已
@@ -63,23 +65,22 @@ echo "当前脚本名称为 $name"
 }
 #现在好多了。可以用这种方法来编写基于脚本名执行不同功能的脚本。
 
-name=$(basename $0)
+echo "当前脚本名$0 " 
 
-if [ $name = "addem"]
+
+
+
+
+
+name=$(basename $0)
+if [ $name = "addem" ]
 then
-  total=$[ $1 + $2 ]
-elif [ $name = "multem" ]
+  total=$[ $1 + $2 ] 
+elif [ $name = "multem"]
 then
   total=$[ $1 * $2]
 fi
-echo 
-
-
-
-
-
-
-
+echo "计算值为 $total"
 
 
 
