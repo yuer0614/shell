@@ -63,23 +63,9 @@ echo "当前脚本名称为 $name"
 }
 #现在好多了。可以用这种方法来编写基于脚本名执行不同功能的脚本。
 
-if [ $name = "addem" ]
-then
-       total=$[ $1 + $2 ]
-    #
-    elif [ $name = "multem" ]
-    then
-       total=$[ $1 * $2 ]
-    fi
-#
-echo
-echo The calculated value is $total
-
-
-
 name=$(basename $0)
 
-if [ $name = "addem" ]
+if [ $name = "addem"]
 then
   total=$[ $1 + $2 ]
 elif [ $name = "multem" ]
